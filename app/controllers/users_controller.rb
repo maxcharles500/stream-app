@@ -1,5 +1,5 @@
 class UsersController < ApplicationController 
-rescue_from ActiveRecord::RecordInvalid, with: :render_invalid
+
     def index
         users = User.all
         render json: users
@@ -15,10 +15,23 @@ rescue_from ActiveRecord::RecordInvalid, with: :render_invalid
         else 
             render json: {error:new_user.errors.full_messages}, status: :unprocessable_entity 
         end
-        
     end 
+    def update 
+        user = User.find(params[:id])
+        user.update!(user_params)
+        
+    end
+    def destroy
+        user = find_user
+        user.destroy
+        head :no_content 
+    end
+
 
     private 
+    def find_user
+        User.find(params[:id]) 
+    end
 
     def user_params 
        params.permit(:name, :email, :password, :username, :address, :phone)
