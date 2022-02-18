@@ -3,6 +3,10 @@ class WatchlistsController < ApplicationController
      watchlists = Watchlist.all 
      render json: watchlists
    end
+   def show 
+    watchlist = find_watchlist
+    render json: watchlist 
+end
    def create 
         new_watchlist = Watchlist.new(watchlist_params)
         if new_watchlist.save 
